@@ -1,4 +1,4 @@
-package com.yanalysis.scas.user.model;
+package com.yanalysis.oathink.user.model;
 
 public class User {
 	private final String uid;
