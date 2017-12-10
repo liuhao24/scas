@@ -1,9 +1,11 @@
 package com.yanalysis.oathink;
 
-public class ErrorDto {
+public class ResponseEntityDto {
 	private int code = 0;
 	
 	private String message = "ok";
+	
+	private Object data = null;
 
 	public int getCode() {
 		return code;
@@ -19,6 +21,14 @@ public class ErrorDto {
 
 	public void setMessage(String message) {
 		this.message = message;
+	}
+
+	public Object getData() {
+		return data;
+	}
+
+	public void setData(Object data) {
+		this.data = data;
 	}
 	
 	

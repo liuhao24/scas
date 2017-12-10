@@ -8,12 +8,13 @@ public class OAThinkOrgn implements Serializable {
 	private Integer orgid;
 
 	private String name;
+	private String domain;
 	private String phone;
 	private String email;
 	private String addr;
 
 	private Date createAt;
-	private Date createBy;
+	private String createBy;
 
 	public Integer getOrgid() {
 		return orgid;
@@ -55,11 +56,11 @@ public class OAThinkOrgn implements Serializable {
 		this.createAt = createAt;
 	}
 
-	public Date getCreateBy() {
+	public String getCreateBy() {
 		return createBy;
 	}
 
-	public void setCreateBy(Date createBy) {
+	public void setCreateBy(String createBy) {
 		this.createBy = createBy;
 	}
 
@@ -69,6 +70,14 @@ public class OAThinkOrgn implements Serializable {
 
 	public void setName(String name) {
 		this.name = name == null ? null : name.trim();
+	}
+
+	public String getDomain() {
+		return domain;
+	}
+
+	public void setDomain(String domain) {
+		this.domain = domain;
 	}
 
 	@Override
