@@ -1,11 +1,8 @@
 package com.yanalysis.oathink.user.service.impl;
 
-import java.util.Random;
-
 import org.apache.commons.lang3.RandomStringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import org.springframework.util.StringUtils;
 
 import com.yanalysis.oathink.common.OAThinkFields;
 import com.yanalysis.oathink.common.OAThinkJsonFactory;
@@ -43,7 +40,7 @@ public class UserServiceImpl implements UserService{
 		user.setPhone(company.getPhone());
 		user.setPwd(pwd);
 		user.setSalt(salt);
-		RandomStringUtils.randomNumeric(8);
+		
 		int uid = userMapper.insert(user);
 		user.setId(uid);
 		
@@ -78,6 +75,12 @@ public class UserServiceImpl implements UserService{
 		user.setSid(sid);
 		cacheComp.set(OAThinkFields.PREFIX_SID + sid, OAThinkJsonFactory.toJson(user));
 		return true;
+	}
+
+	@Override
+	public UserVO getUserBySid(String sid) {
+		String jsonStr = cacheComp.get(OAThinkFields.PREFIX_SID + sid);
+		return null == jsonStr?null:OAThinkJsonFactory.fromJson(jsonStr, UserVO.class);
 	}
 
 }

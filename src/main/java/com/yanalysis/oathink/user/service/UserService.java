@@ -14,5 +14,7 @@ public interface UserService {
 	boolean authRegSms(String phone, String token);
 
 	boolean login(UserVO user)  throws UserLoginException;
+
+	UserVO getUserBySid(String sid);
 	
 }
