@@ -1,5 +1,7 @@
 package com.yanalysis.oathink.component;
 
+import java.util.concurrent.TimeUnit;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -22,6 +24,10 @@ public class OAThinkCacheComp {
 		} else {
 			logger.debug("this key = " + ops.get(key));
 		}
+	}
+	
+	public void expire(String key, long timeout) {
+		this.stringRedisTemplate.expire(key, timeout, TimeUnit.SECONDS);
 	}
 
 	public String get(String key) {

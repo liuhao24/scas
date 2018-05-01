@@ -5,4 +5,7 @@ public interface OAThinkError {
     static final String VALIDATION_CODE_ERROR_MSG = "VALIDATION_CODE_ERROR";
 	static final int USER_LOGIN_EXCEPTION = 1002;
 	static final String USER_LOGIN_EXCEPTION_MSG = "USER_LOGIN_EXCEPTION";
+	
+	static final int VALIDATION_PHONE_ERROR = 1003;
+	static final String VALIDATION_PHONE_ERROR_MSG = "VALIDATION_PHONE_ERROR";
 }

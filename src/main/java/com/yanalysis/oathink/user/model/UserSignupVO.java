@@ -3,14 +3,15 @@ package com.yanalysis.oathink.user.model;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
 @JsonIgnoreProperties(ignoreUnknown=true)
-public class UserVO {
-	private int uid;
+public class UserSignupVO {
+	private String uid;
     private String name;
     private String sid;
     private String pwd;
+    private String phone;
     private String code;
     
-	public void setUid(int uid) {
+	public void setUid(String uid) {
 		this.uid = uid;
 	}
 
@@ -30,11 +31,11 @@ public class UserVO {
 		this.pwd = pwd;
 	}
 
-	public UserVO() {
+	public UserSignupVO() {
 		
 	}
 	
-	public int getUid() {
+	public String getUid() {
 		return uid;
 	}
 	public String getName() {
@@ -50,6 +51,14 @@ public class UserVO {
 
 	public void setCode(String code) {
 		this.code = code;
+	}
+
+	public String getPhone() {
+		return phone;
+	}
+
+	public void setPhone(String phone) {
+		this.phone = phone;
 	}
     
 }

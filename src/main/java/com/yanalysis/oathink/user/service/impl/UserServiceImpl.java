@@ -14,12 +14,13 @@ import com.yanalysis.oathink.entity.OAThinkUser;
 import com.yanalysis.oathink.entity.mapper.OAThinkUserMapper;
 import com.yanalysis.oathink.entity.mapper.OrginizationMapper;
 import com.yanalysis.oathink.user.model.CompanyVO;
+import com.yanalysis.oathink.user.model.UserSignupVO;
 import com.yanalysis.oathink.user.model.UserVO;
 import com.yanalysis.oathink.user.service.UserService;
 
 @Service
 public class UserServiceImpl implements UserService{
-	
+	public static final long CODE_EXPIRE = 5*60;
 	@Autowired
 	OAThinkCacheComp cacheComp = null;
 	
@@ -55,13 +56,17 @@ public class UserServiceImpl implements UserService{
 	}
 
 	public void sendRegSms(String phone) {
-		cacheComp.set(OAThinkFields.PREFIX_SMS_REG + phone, "123456");
+		String key = OAThinkFields.PREFIX_SMS_REG + phone;
+		cacheComp.set(key, "123456");
+		cacheComp.expire(key, CODE_EXPIRE);
 	}
 
 	@Override
 	public boolean authRegSms(String phone, String token) {
-		
-		return token.equals(cacheComp.get(OAThinkFields.PREFIX_SMS_REG + phone));
+		String key = OAThinkFields.PREFIX_SMS_REG + phone;
+		boolean match = token.equals(cacheComp.get(key));
+		if(match) cacheComp.expire(key, CODE_EXPIRE);
+		return match;
 	}
 
 	@Override
@@ -71,7 +76,7 @@ public class UserServiceImpl implements UserService{
 			throw new UserLoginException();
 		};
 		String sid = RandomStringUtils.randomAlphanumeric(16);
-		user.setUid(entity.getId() +"");
+		user.setUid(entity.getId());
 		user.setSid(sid);
 		cacheComp.set(OAThinkFields.PREFIX_SID + sid, OAThinkJsonFactory.toJson(user));
 		return true;
@@ -81,6 +86,24 @@ public class UserServiceImpl implements UserService{
 	public UserVO getUserBySid(String sid) {
 		String jsonStr = cacheComp.get(OAThinkFields.PREFIX_SID + sid);
 		return null == jsonStr?null:OAThinkJsonFactory.fromJson(jsonStr, UserVO.class);
+	}
+
+	@Override
+	public String createUser(UserSignupVO signupVo) throws UserLoginException {
+		OAThinkUser user = new OAThinkUser();
+		String salt = passwdAuth.genSalt();
+		String pwd = passwdAuth.hash(signupVo.getPwd().getBytes(), salt.getBytes());
+		user.setName(signupVo.getName());
+		user.setPhone(signupVo.getPhone());
+		user.setPwd(pwd);
+		user.setSalt(salt);
+		int uid = userMapper.insert(user);
+		UserVO uservo = new UserVO();
+		String sid = RandomStringUtils.randomAlphanumeric(16);
+		uservo.setUid(uid);
+		uservo.setSid(sid);
+		cacheComp.set(OAThinkFields.PREFIX_SID + sid, OAThinkJsonFactory.toJson(uservo));
+		return sid;
 	}
 
 }

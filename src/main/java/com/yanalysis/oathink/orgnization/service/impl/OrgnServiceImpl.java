@@ -26,7 +26,7 @@ public class OrgnServiceImpl implements OrgnService {
 		dept.setCode(vo.getCode());
 		dept.setPgid(vo.getPgid());
 		dept.setDomain(vo.getOrgDomain());
-		dept.setCreatedBy(Integer.parseInt(user.getUid()));
+		dept.setCreatedBy(user.getUid());
 		dept.setDescription(vo.getDeptDesc());
 		dept.setEnable(vo.isEnable());
 		int gid = orgnMapper.insertDepartment(dept);
@@ -35,7 +35,7 @@ public class OrgnServiceImpl implements OrgnService {
 
 	@Override
 	public void disableDepartment(UserVO user, int id) {
-		orgnMapper.deleteDepartment(id, Integer.parseInt(user.getUid()));
+		orgnMapper.deleteDepartment(id, user.getUid());
 	}
 
 	@Override

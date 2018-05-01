@@ -1,5 +1,8 @@
 package com.yanalysis.oathink.user.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+
+@JsonIgnoreProperties(ignoreUnknown=true)
 public class CompanyVO {
     private String orgName = "";
     private String orgDomain = "";
